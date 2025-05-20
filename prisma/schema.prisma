@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+  previewFeatures = ["typedSql"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AISData {
+  id                 Int      @id @default(autoincrement())
+  cog                Float?
+  communicationState Int?
+  latitude           Float?
+  longitude          Float?
+  messageId          Int?
+  navigationalStatus Int?
+  positionAccuracy   Boolean
+  raim               Boolean
+  rateOfTurn         Int?
+  repeatIndicator    Int?
+  sog                Float?
+  spare              Int?
+  specialManoeuvreIndicator Int?
+  timestamp          Int?
+  trueHeading        Int?
+  userId             Int?
+  valid              Boolean
+
+  mmsi               Int?
+  mmsiString         String?
+  shipName           String?
+  timeUtc            DateTime?
+  
+  position           Json
+
+  @@index([mmsi, timeUtc(sort: Desc)])
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model spatial_ref_sys {
+  srid      Int     @id
+  auth_name String? @db.VarChar(256)
+  auth_srid Int?
+  srtext    String? @db.VarChar(2048)
+  proj4text String? @db.VarChar(2048)
+}
