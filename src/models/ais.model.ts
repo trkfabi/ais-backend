@@ -1,10 +1,10 @@
-import { AISData } from "../../generated/prisma";
+import { Prisma } from "../../generated/prisma";
 import prisma from "../config/db";
-import { getVesselsByTime } from "../../generated/prisma/sql";
 
-const create = async (_data: AISData) => {
+const create = async (_data: Prisma.AISDataCreateInput) => {
   try {
-    prisma.aISData.create({ data: _data });
+    //console.log(_data);
+    await prisma.aISData.create({ data: _data });
   } catch (error) {
     console.error("Failed to store AIS Data:", error);
     return [];
@@ -13,10 +13,7 @@ const create = async (_data: AISData) => {
 
 const list = async (minutesAgo: number, timeUtc: string) => {
   try {
-    // Consulta para obtener barcos actualizados en los últimos 2 minutos y que no se repitan mmsi
-    // not used
-    minutesAgo = minutesAgo || 0;
-
+    // Query to get vessels updated in the last 2 minutes and that do not repeat mmsi
     const query = `
         SELECT DISTINCT ON (mmsi) mmsi, cog, sog, latitude, longitude, "shipName", "trueHeading"
         FROM public."AISData"

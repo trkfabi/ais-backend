@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:15
+    container_name: ais-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: InzUsr109109
+      POSTGRES_DB: ais_data
+    ports:
+      - "5433:5432" # solo si quieres acceder a Postgres desde fuera (opcional)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ais-network
+
+  api:
+    build:
+      context: .
+      target: development
+    container_name: ais-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000" # API disponible en localhost:3000
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgres://postgres:InzUsr109109@db:5432/ais_data
+    depends_on:
+      - db
+    volumes:
+      - .:/app # Monta el código local para hot-reload
+      - /app/node_modules # Evita conflictos con node_modules del host
+    networks:
+      - ais-network
+    command: >
+      sh -c "
+        npx prisma generate &&
+        npx prisma migrate deploy &&
+        npm run start:development
+      "
+
+volumes:
+  postgres_data:
+
+networks:
+  ais-network:

@@ -34,7 +34,7 @@ https://aisstream.io/documentation
 connection: wss://stream.aisstream.io/v0/stream
 subscription message (within 3 secs): 
 {
-   "APIKey": "1ef8eeb7dbfadd988fa0ea3fb72459515921faae",
+   "APIKey": "YOUR_API_KEY",
    "BoundingBoxes": [[[25.835302, -80.207729], [25.602700, -79.879297]], [[33.772292, -118.356139], [33.673490, -118.095731]] ],
    "FilterMessageTypes": ["PositionReport"]
 }

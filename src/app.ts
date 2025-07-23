@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// verify it is listening
+// public endpoint to verify it is listening
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,

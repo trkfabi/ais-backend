@@ -36,11 +36,11 @@ exports.$Enums = {}
 
 /**
  * Prisma Client JS version: 6.7.0
- * Query Engine version: acc0b9dd43eb689cbd20c9470515d719db10d0b0
+ * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
  */
 Prisma.prismaVersion = {
   client: "6.7.0",
-  engine: "acc0b9dd43eb689cbd20c9470515d719db10d0b0"
+  engine: "3cff47a7f5d65c3ea74883f1d736e41d68ce91ed"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -167,7 +167,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/fabi/Workspace/MVPs/orca/ais-backend/generated/prisma",
+      "value": "/Users/fabi/Workspace/MVPs/test/ais-backend/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -178,12 +178,24 @@ const config = {
         "fromEnvVar": null,
         "value": "darwin",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "darwin"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "linux-arm64-openssl-3.0.x"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [
       "typedSql"
     ],
-    "sourceFilePath": "/Users/fabi/Workspace/MVPs/orca/ais-backend/prisma/schema.prisma",
+    "sourceFilePath": "/Users/fabi/Workspace/MVPs/test/ais-backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -192,7 +204,7 @@ const config = {
   },
   "relativePath": "../../prisma",
   "clientVersion": "6.7.0",
-  "engineVersion": "acc0b9dd43eb689cbd20c9470515d719db10d0b0",
+  "engineVersion": "3cff47a7f5d65c3ea74883f1d736e41d68ce91ed",
   "datasourceNames": [
     "db"
   ],
@@ -206,8 +218,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider        = \"prisma-client-js\"\n  output          = \"../generated/prisma\"\n  previewFeatures = [\"typedSql\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel AISData {\n  id                        Int     @id @default(autoincrement())\n  cog                       Float?\n  communicationState        Int?\n  latitude                  Float?\n  longitude                 Float?\n  messageId                 Int?\n  navigationalStatus        Int?\n  positionAccuracy          Boolean\n  raim                      Boolean\n  rateOfTurn                Int?\n  repeatIndicator           Int?\n  sog                       Float?\n  spare                     Int?\n  specialManoeuvreIndicator Int?\n  timestamp                 Int?\n  trueHeading               Int?\n  userId                    Int?\n  valid                     Boolean\n\n  mmsi       Int?\n  mmsiString String?\n  shipName   String?\n  timeUtc    DateTime?\n\n  position Json\n\n  @@index([mmsi, timeUtc(sort: Desc)])\n}\n\n/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.\nmodel spatial_ref_sys {\n  srid      Int     @id\n  auth_name String? @db.VarChar(256)\n  auth_srid Int?\n  srtext    String? @db.VarChar(2048)\n  proj4text String? @db.VarChar(2048)\n}\n",
-  "inlineSchemaHash": "269937c788195144337ff9b400a9c002240bdc848610781119dafb3dcf446d19",
+  "inlineSchema": "generator client {\n  provider        = \"prisma-client-js\"\n  output          = \"../generated/prisma\"\n  previewFeatures = [\"typedSql\"]\n  binaryTargets   = [\"native\", \"darwin\", \"linux-arm64-openssl-3.0.x\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel AISData {\n  id                        Int     @id @default(autoincrement())\n  cog                       Float?\n  communicationState        Int?\n  latitude                  Float?\n  longitude                 Float?\n  messageId                 Int?\n  navigationalStatus        Int?\n  positionAccuracy          Boolean\n  raim                      Boolean\n  rateOfTurn                Int?\n  repeatIndicator           Int?\n  sog                       Float?\n  spare                     Int?\n  specialManoeuvreIndicator Int?\n  timestamp                 Int?\n  trueHeading               Int?\n  userId                    Int?\n  valid                     Boolean\n\n  mmsi       Int?\n  mmsiString String?\n  shipName   String?\n  timeUtc    DateTime?\n\n  position Json\n\n  @@index([mmsi, timeUtc(sort: Desc)])\n}\n\n/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.\nmodel spatial_ref_sys {\n  srid      Int     @id\n  auth_name String? @db.VarChar(256)\n  auth_srid Int?\n  srtext    String? @db.VarChar(2048)\n  proj4text String? @db.VarChar(2048)\n}\n",
+  "inlineSchemaHash": "d3a7e25e23f38409340e4ce12fcc8255ac4450922ebf5fbb921945012594bbd4",
   "copyEngine": true
 }
 config.dirname = '/'

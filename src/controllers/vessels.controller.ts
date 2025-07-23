@@ -7,7 +7,7 @@ const AIS_WS_APIKEY = process.env.AIS_WS_APIKEY;
 
 const list = async (req: Request, res: Response): Promise<void> => {
   try {
-    // Calcula el límite de tiempo (hace 2 minutos)
+    // Calculate the time threshold (2 minutes ago)
     const minutesAgo = parseInt(req.query.minutes_ago as string, 10) || 2;
     const timeUtc = (req.query.timeUtc as string) || "";
     const bounds = req.query.bounds;
@@ -29,17 +29,16 @@ const list = async (req: Request, res: Response): Promise<void> => {
           ],
           FilterMessageTypes: ["PositionReport"],
         };
-
+        // Update the subscription message to the w-service with the new bounding box
         updateAISMessage(AIS_WS_SUBSCRIPTION_MESSAGE);
       } catch (_err) {
         console.error(_err);
       }
     }
 
-    // Consulta para obtener barcos actualizados en los últimos N minutos
+    // Query to get vessels updated in the last N minutes
     const freshVessels = await AISModel.list(minutesAgo, timeUtc);
 
-    // Respuesta con datos frescos
     res.status(200).json({
       success: true,
       message: `List of vessels updated in the last ${minutesAgo} minutes.`,
