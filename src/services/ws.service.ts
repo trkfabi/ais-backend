@@ -24,6 +24,14 @@ let AIS_WS_SUBSCRIPTION_MESSAGE: Message = {
   FilterMessageTypes: ["PositionReport"],
 };
 
+type ActiveBox = {
+  bbox: [[number, number], [number, number]];
+  lastSeen: number; // timestamp
+};
+const activeBoundingBoxes: { [ip: string]: ActiveBox } = {};
+const BBOX_TIMEOUT = 1 * 60 * 1000; // 10 minutos en ms
+
+// Expand the bounding box by a margin so that the w-service can send more data.
 function expandBoundingBox(
   bbox: [[number, number], [number, number]],
   margin = 0.5
@@ -79,6 +87,42 @@ export const updateAISMessage = (message: Message) => {
   };
   throttledWsSendMessage();
 };
+
+// Limpieza periódica
+setInterval(() => {
+  const now = Date.now();
+  let changed = false;
+  for (const ip in activeBoundingBoxes) {
+    if (now - activeBoundingBoxes[ip].lastSeen > BBOX_TIMEOUT) {
+      console.warn("Bounding box expired for ip:", ip);
+      delete activeBoundingBoxes[ip];
+      changed = true;
+    }
+  }
+  if (changed) {
+    updateWsSubscription();
+  }
+}, 60 * 1000); // cada minuto
+
+function updateWsSubscription() {
+  const boxes = Object.values(activeBoundingBoxes).map((entry) => entry.bbox);
+
+  const expandedBoxes = expandBoundingBoxes(boxes, 0.5);
+  AIS_WS_SUBSCRIPTION_MESSAGE = {
+    ...AIS_WS_SUBSCRIPTION_MESSAGE,
+    BoundingBoxes: expandedBoxes,
+  };
+  throttledWsSendMessage();
+}
+
+// Exporta esta función para que el controller la use
+export function registerBoundingBox(
+  ip: string,
+  bbox: [[number, number], [number, number]]
+) {
+  activeBoundingBoxes[ip] = { bbox, lastSeen: Date.now() };
+  updateWsSubscription();
+}
 
 // Initialize WebSocket
 export const startAISService = () => {
