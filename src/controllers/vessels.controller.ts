@@ -16,7 +16,7 @@ const list = async (req: Request, res: Response): Promise<void> => {
         ? forwarded[0]
         : req.socket?.remoteAddress;
 
-    // NEW: Get deviceId from header or query, fallback to ip
+    // Get deviceId from header or query
     let deviceId =
       (req.headers["x-device-id"] as string) ||
       (req.query.deviceId as string) ||

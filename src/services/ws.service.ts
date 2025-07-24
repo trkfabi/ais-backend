@@ -12,7 +12,7 @@ let keepAliveInterval: NodeJS.Timeout | null = null;
 let lastSentMessage: string | null = null;
 let reconnectTimeout: NodeJS.Timeout | null = null;
 
-// Mensaje de suscripción actual
+// subscription message
 let AIS_WS_SUBSCRIPTION_MESSAGE: Message = {
   APIKey: AIS_WS_APIKEY,
   BoundingBoxes: [
@@ -29,7 +29,7 @@ type ActiveBox = {
   lastSeen: number; // timestamp
 };
 const activeBoundingBoxes: { [ip: string]: ActiveBox } = {};
-const BBOX_TIMEOUT = 1 * 60 * 1000; // 10 minutos en ms
+const BBOX_TIMEOUT = 1 * 60 * 1000; // 1 minute in ms
 
 // Expand the bounding box by a margin so that the w-service can send more data.
 function expandBoundingBox(
@@ -78,8 +78,7 @@ const throttledWsSendMessage = throttle(() => {
 
 // Update the subscription message when the user changes the bounding box.
 export const updateAISMessage = (message: Message) => {
-  // Expande todos los bounding boxes recibidos
-  const expandedBoxes = expandBoundingBoxes(message.BoundingBoxes, 0.5); // 0.5 es el margen, ajústalo a tu gusto
+  const expandedBoxes = expandBoundingBoxes(message.BoundingBoxes, 0.5); // expand the bounding box by a margin so that the w-service can send more data.
 
   AIS_WS_SUBSCRIPTION_MESSAGE = {
     ...message,
@@ -88,7 +87,7 @@ export const updateAISMessage = (message: Message) => {
   throttledWsSendMessage();
 };
 
-// Limpieza periódica
+// periodic cleanup
 setInterval(() => {
   const now = Date.now();
   let changed = false;
@@ -102,7 +101,7 @@ setInterval(() => {
   if (changed) {
     updateWsSubscription();
   }
-}, 60 * 1000); // cada minuto
+}, 60 * 1000); // every minute
 
 function updateWsSubscription() {
   const boxes = Object.values(activeBoundingBoxes).map((entry) => entry.bbox);
@@ -115,7 +114,6 @@ function updateWsSubscription() {
   throttledWsSendMessage();
 }
 
-// Exporta esta función para que el controller la use
 export function registerBoundingBox(
   ip: string,
   bbox: [[number, number], [number, number]]
