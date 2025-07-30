@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "prisma": {
-  "schema": "./prisma/schema.prisma"
-},
+    "schema": "./prisma/schema.prisma"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/app.js",

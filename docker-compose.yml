@@ -5,7 +5,7 @@ services:
     container_name: ais-backend
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "6000:3000"
     depends_on:
       - db
     env_file:
@@ -30,6 +30,6 @@ volumes:
 networks:
   ais-network:
 # use it like this:
-# docker-compose -f docker-compose.yml --env-file .env.production up
+# docker compose -f docker-compose.yml --env-file .env.production up
 # y
-# docker-compose -f docker-compose.yml --env-file .env.development up
+# docker compose -f docker-compose.yml --env-file .env.development up
