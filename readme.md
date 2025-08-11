@@ -53,6 +53,20 @@ Ingests real-time AIS (Automatic Identification System) vessel data from [aisstr
 - PostgreSQL 14+
 - Docker (optional)
 
+## ⚙️ Environment Variables
+
+Create a `.env` file in the project root with:
+```
+DATABASE_URL=postgresql://user:pass@db:5432/db_name
+AIS_WS_URL=wss://stream.aisstream.io/v0/stream
+AIS_WS_APIKEY=<YOUR_API>
+PORT=3000
+NODE_ENV=production
+POSTGRES_USER=user
+POSTGRES_PASSWORD=passw
+POSTGRES_DB=db_name
+```
+
 ### Installation
 
 ```bash
